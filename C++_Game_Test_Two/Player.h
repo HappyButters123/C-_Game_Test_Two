@@ -2,12 +2,7 @@
 #include "NormalHeaders.h"
 
 #include "Entity.h"
-
-// ColidingRecs, 5 components
-typedef struct ColidingRecs {
-    int ID;                 // Unique idetifier == to that of the entity its from
-    Rectangle Rec;
-} ColidingRecs;
+#include "Enemy.h"
 
 class Player : public Entity
 {
@@ -16,18 +11,20 @@ public:
     int Health = 100;
 
     bool FightWin = false;
+    bool DiedinFight = false;
     int NextFightDelay = 60;
     bool FullColiding = false;
     std::list<bool> IsColidings = {};
     std::list<ColidingRecs> AllColidingRecs = {};
 
     void Update(std::list<std::variant<Entity, Player>>* MapObjects);
-    void CombatUpdate();
+    void CombatUpdate(Enemy* Enemy);
 
     void SelfMove();
     void Colition(std::list<std::variant<Entity, Player>>* MapObjects);
     void FullColition(std::list<std::variant<Entity, Player>>* MapObjects);
     void CombatDelay();
+    void Atack(Enemy* Enemy, int Action, bool* Turn);
     //TEMP
     void DrawColidingRec();
     //TEMP

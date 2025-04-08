@@ -13,3 +13,12 @@ void Entity::SelfDraw()
 
 	//DrawCircle(this->Oragin.x, this->Oragin.y, 16, BLACK);
 }
+
+int Entity::Random(int Min, int Max)
+{
+	std::random_device rd;
+	std::mt19937_64 gen(rd());
+	std::uniform_int_distribution<> distrib(Min, Max);
+
+	return distrib(gen);
+}

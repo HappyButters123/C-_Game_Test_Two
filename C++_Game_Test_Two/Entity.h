@@ -8,6 +8,13 @@ class Entity
 {
 public:
 	
+	// ColidingRecs, 5 components
+	typedef struct ColidingRecs {
+		int ID;                 // Unique idetifier == to that of the entity its from
+		Rectangle Rec;
+	} ColidingRecs;
+
+
 	int EntityID = 0;
 
 	//Color To Draw
@@ -24,6 +31,7 @@ public:
 	
 	virtual void Update();
 	void SelfDraw();
+	int Random(int Min, int Max);
 
 	//constructor
 	Entity(int ID, float X, float Y, float WIDTH, float HIGHT) {

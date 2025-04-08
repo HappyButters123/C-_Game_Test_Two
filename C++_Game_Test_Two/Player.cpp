@@ -1,5 +1,7 @@
 #include "Player.h"
+#include "Enemy.h"
 
+//update the player object NOT during fights
 void Player::Update(std::list<std::variant<Entity, Player>>* MapObjects)
 {
 	//Moving
@@ -16,25 +18,38 @@ void Player::Update(std::list<std::variant<Entity, Player>>* MapObjects)
 	this->DrawColidingRec();
 }
 
-void Player::CombatUpdate()
+//update the player object during fights
+void Player::CombatUpdate(Enemy* Enemy)
 {
 	//Moving
 	this->Bounds.x = -500;
 	this->Bounds.y = 200;
-
 	this->Oragin = { this->Bounds.x + (this->Bounds.width / 2),this->Bounds.y + (this->Bounds.height) };
 
-	//Temp Exit Fights
+	//Temp Exit Fights  for testing
 	if (IsKeyPressed(KEY_SPACE)) {
 		this->NextFightDelay = 60;
 		this->FightWin = true;
 	}
-	//Temp Exit Fights
+	//Temp Exit Fights for testing
+
+	//loos the fight
+	if (this->Health <= 0) {
+		this->NextFightDelay = 60;
+		this->DiedinFight = true;
+	}
+
+	//win the fight
+	if (Enemy->Health <= 0) {
+		this->NextFightDelay = 60;
+		this->FightWin = true;
+	}
 
 	//Draws [Should be last]
 	this->SelfDraw();
 }
 
+//moving outside of fights [OLD]
 void Player::SelfMove()
 {
 	if (IsKeyDown(KEY_W)) {
@@ -54,6 +69,7 @@ void Player::SelfMove()
 	}
 }
 
+//Colition handeling outside of fights [OLD]
 void Player::Colition(std::list<std::variant<Entity, Player>>* MapObjects)
 {
 	this->AllColidingRecs.clear();
@@ -89,6 +105,7 @@ void Player::Colition(std::list<std::variant<Entity, Player>>* MapObjects)
 	}
 }
 
+//100% Colition handeling outside of fights [OLD]
 void Player::FullColition(std::list<std::variant<Entity, Player>>* MapObjects)
 {
 	for (auto& Evar : *MapObjects) {
@@ -105,6 +122,7 @@ void Player::FullColition(std::list<std::variant<Entity, Player>>* MapObjects)
 	}
 }
 
+//delay between fights
 void Player::CombatDelay()
 {
 	if (this->FightWin && this->NextFightDelay > 0) this->NextFightDelay--;
@@ -112,6 +130,44 @@ void Player::CombatDelay()
 	if (this->NextFightDelay <= 0) this->FightWin = false;
 }
 
+//exicuts fighting actions
+void Player::Atack(Enemy* Enemy, int Action, bool* Turn)
+{
+	if (!IsKeyPressed(KEY_ENTER)) { return; }
+	
+	if ((Random(0, 10) == 10) && Action != 0) {
+		std::cout << *Turn << "Your Action Missed  " << this->Health << "\n";
+	}
+
+	switch (Action)
+	{
+	case 0:
+		std::cout << *Turn << " Health [nothing will happen for this, its your own health]  " << this->Health << "\n";
+		break;
+	case 1:
+		std::cout << *Turn << " Attack: 10D  " << this->Health << "\n";
+		Enemy->Health -= 10;
+		*Turn = false;
+		break;
+	case 2:
+		std::cout << *Turn << " Heal 10HP  " << this->Health << "\n";
+		this->Health += 10;
+
+		if (this->Health > 100) this->Health = 100;
+		*Turn = false;
+		break;
+	case 3:
+		std::cout << *Turn << " Attack 20D  " << this->Health << "\n";
+		Enemy->Health -= 20;
+		*Turn = false;
+		break;
+	default:
+		std::cout << *Turn << " ???  " << this->Health << "\n";
+		break;
+	}
+}
+
+//Draws Colitions outside of fights [OLD]
 void Player::DrawColidingRec() {
 	bool Draw = false;
 	for (auto& Bol : this->IsColidings)

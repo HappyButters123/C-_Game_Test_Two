@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\menu">
+      <UniqueIdentifier>{8904c44d-8a4f-493f-8db5-cae65be1b41c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C++_Game_Test_Two.cpp">
@@ -22,6 +25,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RayLibButtonClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,5 +47,22 @@
     <ClInclude Include="NormalHeaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="simple-xml.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RayLibButtonClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Textures\Menu\button.png">
+      <Filter>Resource Files\menu</Filter>
+    </Image>
   </ItemGroup>
 </Project>

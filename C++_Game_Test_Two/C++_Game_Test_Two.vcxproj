@@ -129,16 +129,25 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="C++_Game_Test_Two.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="RayLibButtonClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="NormalHeaders.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="RayLibButtonClass.h" />
+    <ClInclude Include="simple-xml.h" />
+    <ClInclude Include="tmxLoader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Textures\Menu\button.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

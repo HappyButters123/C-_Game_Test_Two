@@ -21,11 +21,6 @@ void Player::Update(std::list<std::variant<Entity, Player>>* MapObjects)
 //update the player object during fights
 void Player::CombatUpdate(Enemy* Enemy)
 {
-	//Moving
-	this->Bounds.x = -500;
-	this->Bounds.y = 200;
-	this->Oragin = { this->Bounds.x + (this->Bounds.width / 2),this->Bounds.y + (this->Bounds.height) };
-
 	//Temp Exit Fights  for testing
 	if (IsKeyPressed(KEY_SPACE)) {
 		this->NextFightDelay = 60;
@@ -47,6 +42,48 @@ void Player::CombatUpdate(Enemy* Enemy)
 
 	//Draws [Should be last]
 	this->SelfDraw();
+	this->DrawSprite();
+}
+
+void Player::DrawSprite()
+{
+	this->FrameCount++;
+
+	if (this->FrameCount <= 16) {
+		this->TextureState = 0;
+		//TEMP
+		std::cout << "0\n";
+		//TEMP
+		goto AFTERCOUNT;
+	}
+	if (this->FrameCount >= 17 && this->FrameCount <= 19) {
+		this->TextureState = 1;
+		//TEMP
+		std::cout << "1\n";
+		//TEMP
+		goto AFTERCOUNT;
+	}
+	if (this->FrameCount >= 20 && this->FrameCount <= 24) {
+		this->TextureState = 2;
+		//TEMP
+		std::cout << "2\n";
+		//TEMP
+		goto AFTERCOUNT;
+	}
+
+	if (this->FrameCount >= 24) {
+		this->FrameCount = 0;
+		//TEMP
+		std::cout << "Back to 0\n";
+		//TEMP
+		goto AFTERCOUNT;
+	}
+
+AFTERCOUNT:;
+	this->BaseRectangle.x = this->TextureState * this->frameWidth;
+
+	DrawTexturePro(this->PlayerSpriteSheet, this->BaseRectangle, this->Bounds, this->RectangleDraw, 0.0f, WHITE);
+
 }
 
 //moving outside of fights [OLD]

@@ -147,6 +147,7 @@
     <ClInclude Include="tmxLoader.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Textures\Characters\Player\WARRIOR_COMBAT_SPRITE-SHEET.png" />
     <Image Include="Textures\Menu\button.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

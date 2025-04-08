@@ -36,7 +36,7 @@ int main()
     Entity TestEntityOne(0, 200, 200, 100, 100);
     Entity TestEntityTwo(1, -200, -200, 100, 100);
 
-    Player TestPlayer(2, 300, 300, 120, 120);
+    Player TestPlayer(2, -500, 200, 80, 112);
 
     Enemy TestEnemy(2, (250), (-300), 120, 120);
 
@@ -251,7 +251,7 @@ void TwoDFightSpace(Camera2D CAM, Player* Player, Enemy* Enemy, int* MenueOption
 
     ScrollableMenu(MenueOption);
 
-    const char* EnemyStatText = TextFormat("Enemy Health: %i", Enemy->Health);
+    const char* EnemyStatText = TextFormat(" Enemy Health: %i\n Player Health: %i", Enemy->Health, Player->Health);
 
     DrawText(EnemyStatText, 800, (GetScreenHeight() - 100), 30, RED);
 

@@ -241,7 +241,7 @@ void TwoDFightSpace(Camera2D CAM, Player* Player, Enemy* Enemy, int* MenueOption
 
     BeginMode2D(CAM);
 
-    Player->CombatUpdate(Enemy);
+    Player->CombatUpdate(Enemy, Turn);
     
     Enemy->Update(Turn);
 

@@ -19,7 +19,7 @@ void Player::Update(std::list<std::variant<Entity, Player>>* MapObjects)
 }
 
 //update the player object during fights
-void Player::CombatUpdate(Enemy* Enemy)
+void Player::CombatUpdate(Enemy* Enemy, bool* Turn)
 {
 	//Temp Exit Fights  for testing
 	if (IsKeyPressed(KEY_SPACE)) {
@@ -27,6 +27,10 @@ void Player::CombatUpdate(Enemy* Enemy)
 		this->FightWin = true;
 	}
 	//Temp Exit Fights for testing
+
+	if (*Turn && this->ActionDelay > 0) {
+		this->ActionDelay--;
+	}
 
 	//loos the fight
 	if (this->Health <= 0) {
@@ -47,38 +51,42 @@ void Player::CombatUpdate(Enemy* Enemy)
 
 void Player::DrawSprite()
 {
-	this->FrameCount++;
+	if (this->Hit) {
+		this->FrameCount++;
 
-	if (this->FrameCount <= 16) {
-		this->TextureState = 0;
-		//TEMP
-		std::cout << "0\n";
-		//TEMP
-		goto AFTERCOUNT;
-	}
-	if (this->FrameCount >= 17 && this->FrameCount <= 19) {
-		this->TextureState = 1;
-		//TEMP
-		std::cout << "1\n";
-		//TEMP
-		goto AFTERCOUNT;
-	}
-	if (this->FrameCount >= 20 && this->FrameCount <= 24) {
-		this->TextureState = 2;
-		//TEMP
-		std::cout << "2\n";
-		//TEMP
-		goto AFTERCOUNT;
-	}
+		if (this->FrameCount <= 3) {
+			this->TextureState = 0;
+			//TEMP
+			std::cout << "0\n";
+			//TEMP
+			goto AFTERCOUNT;
+		}
+		if (this->FrameCount >= 4 && this->FrameCount <= 6) {
+			this->TextureState = 1;
+			//TEMP
+			std::cout << "1\n";
+			//TEMP
+			goto AFTERCOUNT;
+		}
+		if (this->FrameCount >= 7 && this->FrameCount <= 11) {
+			this->TextureState = 2;
+			//TEMP
+			std::cout << "2\n";
+			//TEMP
+			goto AFTERCOUNT;
+		}
 
-	if (this->FrameCount >= 24) {
-		this->FrameCount = 0;
-		//TEMP
-		std::cout << "Back to 0\n";
-		//TEMP
-		goto AFTERCOUNT;
+		if (this->FrameCount >= 12) {
+			this->TextureState = 0;
+			this->FrameCount = 0;
+			this->Hit = false;
+			//TEMP
+			std::cout << "Back to 0\n";
+			//TEMP
+			goto AFTERCOUNT;
+		}
 	}
-
+	
 AFTERCOUNT:;
 	this->BaseRectangle.x = this->TextureState * this->frameWidth;
 
@@ -159,7 +167,7 @@ void Player::FullColition(std::list<std::variant<Entity, Player>>* MapObjects)
 	}
 }
 
-//delay between fights
+//delay between fights [OLD]
 void Player::CombatDelay()
 {
 	if (this->FightWin && this->NextFightDelay > 0) this->NextFightDelay--;
@@ -170,12 +178,12 @@ void Player::CombatDelay()
 //exicuts fighting actions
 void Player::Atack(Enemy* Enemy, int Action, bool* Turn)
 {
-	if (!IsKeyPressed(KEY_ENTER)) { return; }
+	if (this->ActionDelay > 0 || !IsKeyPressed(KEY_ENTER)) { return; }
 	
 	if ((Random(0, 10) == 10) && Action != 0) {
 		std::cout << *Turn << "Your Action Missed  " << this->Health << "\n";
 	}
-
+	
 	switch (Action)
 	{
 	case 0:
@@ -184,6 +192,7 @@ void Player::Atack(Enemy* Enemy, int Action, bool* Turn)
 	case 1:
 		std::cout << *Turn << " Attack: 10D  " << this->Health << "\n";
 		Enemy->Health -= 10;
+		this->Hit = true;
 		*Turn = false;
 		break;
 	case 2:
@@ -195,6 +204,7 @@ void Player::Atack(Enemy* Enemy, int Action, bool* Turn)
 		break;
 	case 3:
 		std::cout << *Turn << " Attack 20D  " << this->Health << "\n";
+		this->Hit = true;
 		Enemy->Health -= 20;
 		*Turn = false;
 		break;
@@ -202,6 +212,8 @@ void Player::Atack(Enemy* Enemy, int Action, bool* Turn)
 		std::cout << *Turn << " ???  " << this->Health << "\n";
 		break;
 	}
+
+	this->ActionDelay = 12;
 }
 
 //Draws Colitions outside of fights [OLD]

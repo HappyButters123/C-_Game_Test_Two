@@ -26,9 +26,12 @@ public:
     int NumberFrames = 3;
     int frameWidth = 0;
     int FrameCount = 0;
+    bool Hit = false;
 
     void Update(std::list<std::variant<Entity, Player>>* MapObjects);
-    void CombatUpdate(Enemy* Enemy);
+    void CombatUpdate(Enemy* Enemy, bool* Turn);
+
+    int ActionDelay = 12;
 
     void DrawSprite();
     void SelfMove();

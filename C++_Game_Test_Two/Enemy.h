@@ -12,7 +12,7 @@ public:
     int Health = 100;
 
     bool FightWin = false;
-    int ActionDelay = 20;
+    int ActionDelay = 12;
     bool FullColiding = false;
     const char* ActionText = "";
     std::list<bool> IsColidings = {};

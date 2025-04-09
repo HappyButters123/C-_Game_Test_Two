@@ -26,18 +26,22 @@ void TwoDFightSpace(Camera2D CAM, Player* Player, Enemy* Enemy, Texture2D BackGr
 void loosSpace();
 void WinSpace();
 
-//Texture2D FightBackground1 = LoadTexture("Textures\\Menu\\fdxi_-_Copy.png");
-
 //main game loop & program entry point
 int main()
 {
+    //FIRST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /*
+    GetScreenHeight();
+    GetScreenWidth();
+    */
     int screenWidth = 1200;
     int screenHeight = 900;
-
-    Texture2D FightBackground2 = LoadTexture("Textures\\Menu\\fdxi_-_Copy.png");
-
+    
     InitWindow(screenWidth, screenHeight, "C++ Game Test 2");
-
+    //FIRST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    Texture2D FightBackground2 = LoadTexture("Textures\\Menu\\fdxi_-_Copy.png");
+    
     Entity TestEntityOne(0, 200, 200, 100, 100);
     Entity TestEntityTwo(1, -200, -200, 100, 100);
 
@@ -282,5 +286,4 @@ void TwoDFightSpace(Camera2D CAM, Player* Player, Enemy* Enemy, Texture2D BackGr
 
     EndDrawing();
     //End of Drawing things
-
 }

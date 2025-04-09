@@ -36,7 +36,7 @@ int main()
     Entity TestEntityOne(0, 200, 200, 100, 100);
     Entity TestEntityTwo(1, -200, -200, 100, 100);
 
-    Player TestPlayer(2, -500, 200, 80, 112);
+    Player TestPlayer(2, -575, 259, 80, 112);
 
     Enemy TestEnemy(2, (250), (-300), 120, 120);
 
@@ -67,7 +67,10 @@ int main()
                 continue;
             }
 
-            if (std::get<Player>(Pvar).FullColiding && !std::get<Player>(Pvar).FightWin && !std::get<Player>(Pvar).DiedinFight) {
+            if (std::get<Player>(Pvar).FullColiding &&
+                !std::get<Player>(Pvar).FightWin &&
+                !std::get<Player>(Pvar).DiedinFight
+                ) {
 
                 TwoDFightSpace(MainCamera, &std::get<Player>(Pvar), &TestEnemy, &MenueOption, &Turn);
 
@@ -233,27 +236,40 @@ void TwoDFightSpace(Camera2D CAM, Player* Player, Enemy* Enemy, int* MenueOption
         Enemy->Atack(Player, Turn);
         break;
     }
-    
+
+    const char* EnemyOverHeadStats = TextFormat("Health: %i", Enemy->Health);
+    const char* PlayerOverHeadStats = TextFormat("Health: %i", Player->Health);
+    Vector2 P_point = { (Player->Bounds.x), (Player->Bounds.y - 30) };
+    Vector2 E_point = { (Enemy->Bounds.x), (Enemy->Bounds.y - 30) };
+
     //Draw Stuff
     BeginDrawing();
 
     ClearBackground(GRAY);
 
-    BeginMode2D(CAM);
-
-    Player->CombatUpdate(Enemy, Turn);
-    
-    Enemy->Update(Turn);
-
-    EndMode2D();
-
+    //this is the background of the atack menue
     DrawRectangle(0, (GetScreenHeight() - 100), GetScreenWidth(), 100, GREEN);
 
+    //this is the options window for things like atacking during the fight
     ScrollableMenu(MenueOption);
 
-    const char* EnemyStatText = TextFormat(" Enemy Health: %i\n Player Health: %i", Enemy->Health, Player->Health);
+    //2D Begins here (player and enemy are 2D objects, they are drawn here)
+        BeginMode2D(CAM);
 
-    DrawText(EnemyStatText, 800, (GetScreenHeight() - 100), 30, RED);
+            Player->CombatUpdate(Enemy, Turn);
+    
+            Enemy->Update(Turn);
+
+            //Shows the players health over their head
+            DrawTextPro(GetFontDefault(), PlayerOverHeadStats, P_point, { 0,0 }, 0.0f, 30.0f, 1.0f, RED);
+            
+            //Shows the enemys health over their head
+            DrawTextPro(GetFontDefault(), EnemyOverHeadStats, E_point, { 0,0 }, 0.0f, 30.0f, 1.0f, RED);
+
+        EndMode2D();
+    //2D Ends here
 
     EndDrawing();
+    //End of Drawing things
+
 }

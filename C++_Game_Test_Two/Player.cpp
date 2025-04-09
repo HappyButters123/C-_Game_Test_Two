@@ -22,7 +22,7 @@ void Player::Update(std::list<std::variant<Entity, Player>>* MapObjects)
 void Player::CombatUpdate(Enemy* Enemy, bool* Turn)
 {
 	//Temp Exit Fights  for testing
-	if (IsKeyPressed(KEY_SPACE)) {
+	if (IsKeyPressed(KEY_SPACE) && !this->Hit) {
 		this->NextFightDelay = 60;
 		this->FightWin = true;
 	}
@@ -33,13 +33,13 @@ void Player::CombatUpdate(Enemy* Enemy, bool* Turn)
 	}
 
 	//loos the fight
-	if (this->Health <= 0) {
+	if (this->Health <= 0 && !this->Hit) {
 		this->NextFightDelay = 60;
 		this->DiedinFight = true;
 	}
 
 	//win the fight
-	if (Enemy->Health <= 0) {
+	if (Enemy->Health <= 0 && !this->Hit) {
 		this->NextFightDelay = 60;
 		this->FightWin = true;
 	}
@@ -88,9 +88,14 @@ void Player::DrawSprite()
 	}
 	
 AFTERCOUNT:;
-	this->BaseRectangle.x = this->TextureState * this->frameWidth;
+	this->SourceRec.x = this->TextureState * this->frameWidth;
 
-	DrawTexturePro(this->PlayerSpriteSheet, this->BaseRectangle, this->Bounds, this->RectangleDraw, 0.0f, WHITE);
+	//DrawTexturePro(this->PlayerSpriteSheet, this->SourceRec, this->Bounds, this->RectangleDraw, 0.0f, WHITE);
+
+	int tileWidth = (int)(this->SourceRec.width * this->Scail), tileHeight = (int)(this->SourceRec.height * this->Scail);
+
+	DrawTexturePro(this->PlayerSpriteSheet, { this->SourceRec.x, this->SourceRec.y, ((float)this->Bounds.width / tileWidth) * this->SourceRec.width, ((float)this->Bounds.height / tileHeight) * this->SourceRec.height },
+		{ this->Bounds.x, this->Bounds.y, this->Bounds.width, this->Bounds.height }, this->RectangleDraw, 0.0f, WHITE);
 
 }
 

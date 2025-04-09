@@ -15,6 +15,8 @@ void Enemy::Update(bool* Turn)
 //Handels Atacking during fights
 void Enemy::Atack(Player* Player, bool* Turn)
 {
+	if(this->Health <= 0){ return; }
+
 	if (this->ActionDelay > 0) { return; }
 	else {
 		switch (Random(0, 3))

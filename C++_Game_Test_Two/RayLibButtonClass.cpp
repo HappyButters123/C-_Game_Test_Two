@@ -28,12 +28,12 @@ void RayLibButtonClass::Update()
 void RayLibButtonClass::SelfDraw()
 {
     //Temp OutLine
-    DrawRectangleRec(*this->ButtonBounds, Color{ 230, 41, 55, 127 });
+    //DrawRectangleRec(*this->ButtonBounds, Color{ 230, 41, 55, 127 });
     
     //Temp Texture
     //DrawRectangleRec(*this->BaseRectangle, BLUE);
 
-    DrawTexturePro(*this->ButtonTexture, *this->BaseRectangle, *this->ButtonBounds, *this->RectangleDraw, 0.0f, GRAY);
+    DrawTexturePro(*this->ButtonTexture, *this->BaseRectangle, *this->ButtonBounds, *this->RectangleDraw, 0.0f, WHITE);
     
     //DrawTextureRec(*this->ButtonTexture, *this->BaseRectangle, *this->RectangleDraw, WHITE); // Draw button frame
     //DrawTextureRec(*this->ButtonTexture, *this->BaseRectangle, *this->RectangleDraw, GRAY); // Draw button frame

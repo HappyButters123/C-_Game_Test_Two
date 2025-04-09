@@ -20,17 +20,22 @@ void TwoDSpace(Camera2D CAM, std::list<std::variant<Entity, Player>>* Entitys, R
 void NewTwoDSpace(Player* Player, RayLibButtonClass BUTTON);
 
 //Referance to were the fights happen
-void TwoDFightSpace(Camera2D CAM, Player* Player, Enemy* Enemy, int* MenueOption, bool* Turn);
+void TwoDFightSpace(Camera2D CAM, Player* Player, Enemy* Enemy, Texture2D BackGround, int* MenueOption, bool* Turn);
 
 //Win & Loos Screens
 void loosSpace();
 void WinSpace();
+
+//Texture2D FightBackground1 = LoadTexture("Textures\\Menu\\fdxi_-_Copy.png");
 
 //main game loop & program entry point
 int main()
 {
     int screenWidth = 1200;
     int screenHeight = 900;
+
+    Texture2D FightBackground2 = LoadTexture("Textures\\Menu\\fdxi_-_Copy.png");
+
     InitWindow(screenWidth, screenHeight, "C++ Game Test 2");
 
     Entity TestEntityOne(0, 200, 200, 100, 100);
@@ -38,7 +43,7 @@ int main()
 
     Player TestPlayer(2, -575, 259, 80, 112);
 
-    Enemy TestEnemy(2, (250), (-300), 120, 120);
+    Enemy TestEnemy(2, (250), (-300), 96, 96);
 
     std::list<std::variant<Entity, Player>> TestObjects = { 
         TestEntityOne,
@@ -72,7 +77,7 @@ int main()
                 !std::get<Player>(Pvar).DiedinFight
                 ) {
 
-                TwoDFightSpace(MainCamera, &std::get<Player>(Pvar), &TestEnemy, &MenueOption, &Turn);
+                TwoDFightSpace(MainCamera, &std::get<Player>(Pvar), &TestEnemy, FightBackground2, &MenueOption, &Turn);
 
                 continue;
             }
@@ -224,7 +229,7 @@ void ScrollableMenu(int* Click) {
 }
 
 //were the fights happen
-void TwoDFightSpace(Camera2D CAM, Player* Player, Enemy* Enemy, int* MenueOption, bool* Turn) {
+void TwoDFightSpace(Camera2D CAM, Player* Player, Enemy* Enemy, Texture2D BackGround, int* MenueOption, bool* Turn) {
     
     //whos turn can atack
     switch (*Turn)
@@ -240,12 +245,15 @@ void TwoDFightSpace(Camera2D CAM, Player* Player, Enemy* Enemy, int* MenueOption
     const char* EnemyOverHeadStats = TextFormat("Health: %i", Enemy->Health);
     const char* PlayerOverHeadStats = TextFormat("Health: %i", Player->Health);
     Vector2 P_point = { (Player->Bounds.x), (Player->Bounds.y - 30) };
-    Vector2 E_point = { (Enemy->Bounds.x), (Enemy->Bounds.y - 30) };
+    Vector2 E_Health_point = { (Enemy->Bounds.x), (Enemy->Bounds.y - 30) };
+    Vector2 E_Action_point = { (Player->Bounds.x + Player->Bounds.width), ((Player->Bounds.y + Player->Bounds.height) - 30) };
 
     //Draw Stuff
     BeginDrawing();
 
     ClearBackground(GRAY);
+
+    DrawTexture(BackGround, 0, 0, WHITE);
 
     //this is the background of the atack menue
     DrawRectangle(0, (GetScreenHeight() - 100), GetScreenWidth(), 100, GREEN);
@@ -264,7 +272,10 @@ void TwoDFightSpace(Camera2D CAM, Player* Player, Enemy* Enemy, int* MenueOption
             DrawTextPro(GetFontDefault(), PlayerOverHeadStats, P_point, { 0,0 }, 0.0f, 30.0f, 1.0f, RED);
             
             //Shows the enemys health over their head
-            DrawTextPro(GetFontDefault(), EnemyOverHeadStats, E_point, { 0,0 }, 0.0f, 30.0f, 1.0f, RED);
+            DrawTextPro(GetFontDefault(), EnemyOverHeadStats, E_Health_point, { 0,0 }, 0.0f, 30.0f, 1.0f, RED);
+            
+            //Tells Player what the enemy just did
+            DrawTextPro(GetFontDefault(), Enemy->ActionText, E_Action_point, { 0,0 }, 0.0f, 30.0f, 1.0f, RED);
 
         EndMode2D();
     //2D Ends here

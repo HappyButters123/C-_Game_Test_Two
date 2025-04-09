@@ -183,6 +183,8 @@ void Player::CombatDelay()
 //exicuts fighting actions
 void Player::Atack(Enemy* Enemy, int Action, bool* Turn)
 {
+	if(this->Health <= 0) { return; }
+
 	if (this->ActionDelay > 0 || !IsKeyPressed(KEY_ENTER)) { return; }
 	
 	if ((Random(0, 10) == 10) && Action != 0) {

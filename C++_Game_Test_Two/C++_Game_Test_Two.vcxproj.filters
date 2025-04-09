@@ -16,6 +16,12 @@
     <Filter Include="Resource Files\menu">
       <UniqueIdentifier>{8904c44d-8a4f-493f-8db5-cae65be1b41c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Player">
+      <UniqueIdentifier>{68dd32e7-8919-4729-ae8a-e7c76949f741}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Enemy">
+      <UniqueIdentifier>{2f1806e9-64e5-4203-ba96-c17d8e8101d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C++_Game_Test_Two.cpp">
@@ -62,6 +68,18 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\Menu\button.png">
+      <Filter>Resource Files\menu</Filter>
+    </Image>
+    <Image Include="Textures\Characters\Player\WARRIOR_COMBAT_SPRITE-SHEET.png">
+      <Filter>Resource Files\Player</Filter>
+    </Image>
+    <Image Include="Textures\Characters\Enemys\aaron_gp0_015.png">
+      <Filter>Resource Files\Enemy</Filter>
+    </Image>
+    <Image Include="Textures\Menu\Konata.png">
+      <Filter>Resource Files\menu</Filter>
+    </Image>
+    <Image Include="Textures\Menu\fdxi_-_Copy.png">
       <Filter>Resource Files\menu</Filter>
     </Image>
   </ItemGroup>

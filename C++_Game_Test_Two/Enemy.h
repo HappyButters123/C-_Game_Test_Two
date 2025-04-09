@@ -17,7 +17,10 @@ public:
     Vector2 RectangleDraw = { 0,0 };
     int frameWidth = 0;
     bool Hit = false;
-    float Scail = 2;
+    float Scail = 3;
+    int FrameCount = 0;
+    bool WasHit = false;
+
 
     bool FightWin = false;
     int ActionDelay = 12;
@@ -78,8 +81,7 @@ public:
         };
 
         this->SourceRec = Rectangle{ 0, 0, (float)this->Sprite.width, (float)this->Sprite.height };
-        this->RectangleDraw = Vector2{ (X), (Y) };
-
+        
     }
 };
 

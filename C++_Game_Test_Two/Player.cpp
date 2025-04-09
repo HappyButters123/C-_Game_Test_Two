@@ -199,6 +199,7 @@ void Player::Atack(Enemy* Enemy, int Action, bool* Turn)
 	case 1:
 		std::cout << *Turn << " Attack: 10D  " << this->Health << "\n";
 		Enemy->Health -= 10;
+		Enemy->WasHit = true;
 		this->Hit = true;
 		*Turn = false;
 		break;
@@ -213,6 +214,7 @@ void Player::Atack(Enemy* Enemy, int Action, bool* Turn)
 		std::cout << *Turn << " Attack 20D  " << this->Health << "\n";
 		this->Hit = true;
 		Enemy->Health -= 20;
+		Enemy->WasHit = true;
 		*Turn = false;
 		break;
 	default:

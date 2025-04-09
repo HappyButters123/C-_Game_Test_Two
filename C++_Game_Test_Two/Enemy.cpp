@@ -60,17 +60,47 @@ void Enemy::DrawSprite()
 {
 	int tileWidth = (int)(this->SourceRec.width * this->Scail), tileHeight = (int)(this->SourceRec.height * this->Scail);
 
-	float SpotX = 50.0f;
-	float SpotY = 50.0f;
-	
-	DrawTexture(this->Sprite, this->Bounds.x, this->Bounds.y, WHITE);
+	float SpotX = this->SourceRec.x;
+	Color Hue = WHITE;
+
+	//Was Hit
+	if (this->WasHit) {
+
+		this->FrameCount++;
+		Hue = LIGHTGRAY;
+
+		if (this->FrameCount <= 4) {
+			SpotX += 2;
+			//TEMP
+			std::cout << "this->SourceRec.x: " << this->SourceRec.x << " SpotX: " << SpotX << "\n";
+			//TEMP
+		}
+		if (this->FrameCount >= 5 && this->FrameCount <= 8) {
+			SpotX -= 2;
+			//TEMP
+			std::cout << "this->SourceRec.x: " << this->SourceRec.x << " SpotX: " << SpotX << "\n";
+			//TEMP
+		}
+		if (this->FrameCount >= 9 && this->FrameCount <= 12) {
+			SpotX += 2;
+			//TEMP
+			std::cout << "this->SourceRec.x: " << this->SourceRec.x << " SpotX: " << SpotX << "\n";
+			//TEMP
+		}
+
+		if (this->FrameCount >= 13) {
+			this->WasHit = false;
+			this->FrameCount = 0;
+			//TEMP
+			std::cout << "this->SourceRec.x: " << this->SourceRec.x << " SpotX: " << SpotX << "\n";
+			//TEMP
+		}
+	}
+
+	//DrawTexture(this->Sprite, this->Bounds.x, this->Bounds.y, WHITE);
 	
 	DrawTexturePro(this->Sprite, { this->SourceRec.x, this->SourceRec.y, ((float)this->Bounds.width / tileWidth) * this->SourceRec.width, ((float)this->Bounds.height / tileHeight) * this->SourceRec.height },
-		this->Bounds, { SpotX, SpotY }, 0.0f, WHITE);
+		this->Bounds, { SpotX, this->SourceRec.y }, 0.0f, Hue);
+	
 
-	DrawCircle(this->RectangleDraw.x, this->RectangleDraw.y, 10, RED);
-	DrawCircle(SpotX, SpotY, 10, RED);
-
-	DrawText(TextFormat("X %f Y %f", this->RectangleDraw.x, this->RectangleDraw.y), 0, 0, 30, YELLOW);
-	DrawText(TextFormat("X %f Y %f", SpotX, SpotY), 0, 40, 30, YELLOW);
 }

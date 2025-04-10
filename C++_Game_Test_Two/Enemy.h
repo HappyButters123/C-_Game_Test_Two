@@ -17,10 +17,9 @@ public:
     Vector2 RectangleDraw = { 0,0 };
     int frameWidth = 0;
     bool Hit = false;
-    float Scail = 3;
+    float Scail = 3.5;
     int FrameCount = 0;
     bool WasHit = false;
-
 
     bool FightWin = false;
     int ActionDelay = 12;
@@ -28,6 +27,9 @@ public:
     const char* ActionText = "";
     std::list<bool> IsColidings = {};
     std::list<ColidingRecs> AllColidingRecs = {};
+
+    int SpellUse = 3;
+    int Defence = 40;
 
     void Update(bool* Turn);
 

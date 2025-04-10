@@ -27,6 +27,7 @@ public:
     int frameWidth = 0;
     int FrameCount = 0;
     bool Hit = false;
+    bool WasHit = false;
     float Scail = 2.5;
 
     void Update(std::list<std::variant<Entity, Player>>* MapObjects);
@@ -34,12 +35,24 @@ public:
 
     int ActionDelay = 12;
 
+    //Skill starts at 2 and can to up
+    int Skill = 2;
+
+    int NormalDamage = 0;
+    int SpecalDamage = 0;
+    int SpllDamage = 0;
+
+    int SpecalCount = 5;
+    int SpelllCount = 1;
+
     void DrawSprite();
     void SelfMove();
     void Colition(std::list<std::variant<Entity, Player>>* MapObjects);
     void FullColition(std::list<std::variant<Entity, Player>>* MapObjects);
     void CombatDelay();
     void Atack(Enemy* Enemy, int Action, bool* Turn);
+    int AtackDamage(int EnemyDefenceCenter, int PlayerDamageCenter);
+    int HitChance(int EnemyDefenceCenter, int PlayerDamageCenter);
     //TEMP
     void DrawColidingRec();
     //TEMP

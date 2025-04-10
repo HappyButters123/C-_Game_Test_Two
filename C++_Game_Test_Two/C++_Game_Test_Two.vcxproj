@@ -149,6 +149,7 @@
   <ItemGroup>
     <Image Include="Textures\Characters\Enemys\aaron_gp0_015.png" />
     <Image Include="Textures\Characters\Player\WARRIOR_COMBAT_SPRITE-SHEET.png" />
+    <Image Include="Textures\Menu\Backgrounds\Placeholder_BG.png" />
     <Image Include="Textures\Menu\button.png" />
     <Image Include="Textures\Menu\fdxi_-_Copy.png" />
     <Image Include="Textures\Menu\Konata.png" />

@@ -40,14 +40,14 @@ int main()
     InitWindow(screenWidth, screenHeight, "C++ Game Test 2");
     //FIRST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
-    Texture2D FightBackground2 = LoadTexture("Textures\\Menu\\fdxi_-_Copy.png");
+    Texture2D FightBackground2 = LoadTexture("Textures\\Menu\\Backgrounds\\Placeholder_BG.png");
     
     Entity TestEntityOne(0, 200, 200, 100, 100);
     Entity TestEntityTwo(1, -200, -200, 100, 100);
 
     Player TestPlayer(2, -575, 259, 80, 112);
 
-    Enemy TestEnemy(2, (250), (-300), 96, 96);
+    Enemy TestEnemy(2, (100), (-320), 96, 96);
 
     std::list<std::variant<Entity, Player>> TestObjects = { 
         TestEntityOne,

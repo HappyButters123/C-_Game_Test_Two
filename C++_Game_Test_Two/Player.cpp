@@ -45,12 +45,15 @@ void Player::CombatUpdate(Enemy* Enemy, bool* Turn)
 	}
 
 	//Draws [Should be last]
-	this->SelfDraw();
+	//this->SelfDraw();
 	this->DrawSprite();
 }
 
 void Player::DrawSprite()
 {
+	float SpotX = this->RectangleDraw.x;
+	Color Hue = WHITE;
+
 	if (this->Hit) {
 		this->FrameCount++;
 
@@ -87,6 +90,40 @@ void Player::DrawSprite()
 		}
 	}
 	
+	//Was Hit
+	if (this->WasHit) {
+
+		this->FrameCount++;
+		Hue = LIGHTGRAY;
+
+		if (this->FrameCount <= 4) {
+			SpotX += 2;
+			//TEMP
+			std::cout << "this->SourceRec.x: " << this->SourceRec.x << " SpotX: " << SpotX << "\n";
+			//TEMP
+		}
+		if (this->FrameCount >= 5 && this->FrameCount <= 8) {
+			SpotX -= 2;
+			//TEMP
+			std::cout << "this->SourceRec.x: " << this->SourceRec.x << " SpotX: " << SpotX << "\n";
+			//TEMP
+		}
+		if (this->FrameCount >= 9 && this->FrameCount <= 12) {
+			SpotX += 2;
+			//TEMP
+			std::cout << "this->SourceRec.x: " << this->SourceRec.x << " SpotX: " << SpotX << "\n";
+			//TEMP
+		}
+
+		if (this->FrameCount >= 13) {
+			this->WasHit = false;
+			this->FrameCount = 0;
+			//TEMP
+			std::cout << "this->SourceRec.x: " << this->SourceRec.x << " SpotX: " << SpotX << "\n";
+			//TEMP
+		}
+	}
+
 AFTERCOUNT:;
 	this->SourceRec.x = this->TextureState * this->frameWidth;
 
@@ -95,7 +132,7 @@ AFTERCOUNT:;
 	int tileWidth = (int)(this->SourceRec.width * this->Scail), tileHeight = (int)(this->SourceRec.height * this->Scail);
 
 	DrawTexturePro(this->PlayerSpriteSheet, { this->SourceRec.x, this->SourceRec.y, ((float)this->Bounds.width / tileWidth) * this->SourceRec.width, ((float)this->Bounds.height / tileHeight) * this->SourceRec.height },
-		{ this->Bounds.x, this->Bounds.y, this->Bounds.width, this->Bounds.height }, this->RectangleDraw, 0.0f, WHITE);
+		this->Bounds, { SpotX, this->RectangleDraw.y }, 0.0f, Hue);
 
 }
 
@@ -187,42 +224,79 @@ void Player::Atack(Enemy* Enemy, int Action, bool* Turn)
 
 	if (this->ActionDelay > 0 || !IsKeyPressed(KEY_ENTER)) { return; }
 	
-	if ((Random(0, 10) == 10) && Action != 0) {
-		std::cout << *Turn << "Your Action Missed  " << this->Health << "\n";
-	}
-	
+	this->NormalDamage = this->AtackDamage(Enemy->Defence, 45);
+	this->SpecalDamage = this->AtackDamage(Enemy->Defence, 65);
+	this->SpllDamage = this->AtackDamage(Enemy->Defence, 200);
+
 	switch (Action)
 	{
 	case 0:
-		std::cout << *Turn << " Health [nothing will happen for this, its your own health]  " << this->Health << "\n";
+		if (this->SpelllCount > 0) {
+			this->Hit = true;
+			Enemy->Health -= (Enemy->Health - this->SpllDamage <= 0) ? Enemy->Health : this->SpllDamage;
+			this->SpelllCount--;
+			Enemy->WasHit = true;
+			*Turn = false;
+		}
 		break;
 	case 1:
-		std::cout << *Turn << " Attack: 10D  " << this->Health << "\n";
-		Enemy->Health -= 10;
+		Enemy->Health -= (Enemy->Health - this->NormalDamage <= 0) ? Enemy->Health : this->NormalDamage;
 		Enemy->WasHit = true;
 		this->Hit = true;
 		*Turn = false;
 		break;
 	case 2:
-		std::cout << *Turn << " Heal 10HP  " << this->Health << "\n";
 		this->Health += 10;
 
 		if (this->Health > 100) this->Health = 100;
 		*Turn = false;
 		break;
 	case 3:
-		std::cout << *Turn << " Attack 20D  " << this->Health << "\n";
-		this->Hit = true;
-		Enemy->Health -= 20;
-		Enemy->WasHit = true;
-		*Turn = false;
+		if (this->SpecalCount > 0) {
+			this->Hit = true;
+			Enemy->Health -= (Enemy->Health - this->SpecalDamage <= 0) ? Enemy->Health : this->SpecalDamage;
+			this->SpecalCount--;
+			Enemy->WasHit = true;
+			*Turn = false;
+		}
 		break;
 	default:
-		std::cout << *Turn << " ???  " << this->Health << "\n";
+		std::cout << *Turn << "Fatal Error" << this->Health << "\n";
+		WindowShouldClose();
 		break;
 	}
 
 	this->ActionDelay = 12;
+}
+
+//the cance you hit
+int Player::HitChance(int EnemyDefenceCenter, int PlayerDamageCenter)
+{
+	int HitChance = 0;
+
+	double EnemyDefenceRoll = Random((EnemyDefenceCenter - (EnemyDefenceCenter / static_cast<double>(2))), EnemyDefenceCenter + (EnemyDefenceCenter / static_cast<double>(2)));
+
+	double PlayerAtackeRoll = Random((PlayerDamageCenter - (PlayerDamageCenter / static_cast<double>(2))), PlayerDamageCenter + (PlayerDamageCenter / static_cast<double>(2)));
+
+	if (PlayerAtackeRoll > EnemyDefenceRoll) {
+		HitChance = static_cast<double>((EnemyDefenceRoll + 2) / static_cast<double>(2 * (PlayerAtackeRoll + 1)) * 100);
+	}
+	else {
+		HitChance = ((PlayerAtackeRoll / static_cast<double>(2 * (EnemyDefenceRoll + 1))) * 100);
+	}
+	
+	return HitChance;
+}
+
+int Player::AtackDamage(int EnemyDefenceCenter, int PlayerDamageCenter)
+{
+	int PlayerHitRollTop = PlayerDamageCenter + (PlayerDamageCenter / 2);
+
+	int PlayerHitChance = HitChance(EnemyDefenceCenter, PlayerDamageCenter);
+
+	int AtackDamagePerHit = static_cast<double>(PlayerHitChance * ((PlayerHitRollTop / 2) + (1 / (PlayerHitRollTop + 1)))) / static_cast<double>(100);
+
+	return AtackDamagePerHit;
 }
 
 //Draws Colitions outside of fights [OLD]

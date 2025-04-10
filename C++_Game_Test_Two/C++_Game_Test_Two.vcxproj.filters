@@ -22,6 +22,9 @@
     <Filter Include="Resource Files\Enemy">
       <UniqueIdentifier>{2f1806e9-64e5-4203-ba96-c17d8e8101d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\menu\Background">
+      <UniqueIdentifier>{43a18353-de05-41f8-a899-5566836bc77c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C++_Game_Test_Two.cpp">
@@ -81,6 +84,9 @@
     </Image>
     <Image Include="Textures\Menu\fdxi_-_Copy.png">
       <Filter>Resource Files\menu</Filter>
+    </Image>
+    <Image Include="Textures\Menu\Backgrounds\Placeholder_BG.png">
+      <Filter>Resource Files\menu\Background</Filter>
     </Image>
   </ItemGroup>
 </Project>

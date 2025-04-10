@@ -85,5 +85,7 @@ public:
         this->SourceRec = Rectangle{ 0, 0, (float)this->Sprite.width, (float)this->Sprite.height };
         
     }
+
+    ~Enemy() { /* Kill Players */ }
 };
 

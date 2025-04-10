@@ -17,7 +17,7 @@ void ScrollableMenu(int* Click);
 void TwoDSpace(Camera2D CAM, std::list<std::variant<Entity, Player>>* Entitys, RayLibButtonClass BUTTON);
 
 //Referance to pre fight scen [Beta]
-void NewTwoDSpace(Player* Player, RayLibButtonClass BUTTON);
+void NewTwoDSpace(Player* Player, std::vector<RayLibButtonClass> Buttons);
 
 //Referance to were the fights happen
 void TwoDFightSpace(Camera2D CAM, Player* Player, Enemy* Enemy, Texture2D BackGround, int* MenueOption, bool* Turn);
@@ -29,7 +29,7 @@ void WinSpace();
 //main game loop & program entry point
 int main()
 {
-    //FIRST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //FIRST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     /*
     GetScreenHeight();
     GetScreenWidth();
@@ -38,10 +38,12 @@ int main()
     int screenHeight = 900;
     
     InitWindow(screenWidth, screenHeight, "C++ Game Test 2");
-    //FIRST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //FIRST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
+    //The texture in the background of the fights
     Texture2D FightBackground2 = LoadTexture("Textures\\Menu\\Backgrounds\\Placeholder_BG.png");
     
+    //Entitys/Player/Enemy~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Entity TestEntityOne(0, 200, 200, 100, 100);
     Entity TestEntityTwo(1, -200, -200, 100, 100);
 
@@ -54,15 +56,26 @@ int main()
         TestEntityTwo,
         TestPlayer
     };
+    //Entitys/Player/Enemy~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    //Camera2D~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Camera2D MainCamera = { 0 };
 
     MainCamera.target = { 20.0f, 20.0f };
     MainCamera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
     MainCamera.rotation = 0.0f;
     MainCamera.zoom = 1.0f;
+    //Camera2D~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    RayLibButtonClass TestButton(100, 400, 3, "Textures\\Menu\\button.png");
+    //Buttons~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    RayLibButtonClass TestButton1(100, 400, 3, "Textures\\Menu\\button.png", 1);
+    RayLibButtonClass TestButton2(300, 500, 3, "Textures\\Menu\\button.png", 2);
+
+    std::vector<RayLibButtonClass> Buttons = {
+        TestButton1,
+        TestButton2
+    };
+    //Buttons~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     int MenueOption = 0;
     bool Turn = true;
@@ -99,7 +112,7 @@ int main()
             }
 
             //Pre Fight Screen [Beta]
-            NewTwoDSpace(&std::get<Player>(Pvar), TestButton);
+            NewTwoDSpace(&std::get<Player>(Pvar), Buttons);
 
             /*
             //Pre Fight Screen [OLD]
@@ -108,7 +121,8 @@ int main()
         }
     }
 
-    TestButton.RayLibButtonClassDeconstruct();
+    TestButton1.~RayLibButtonClass();
+    TestButton2.~RayLibButtonClass();
 
     CloseWindow();
 }
@@ -142,7 +156,7 @@ void TwoDSpace(Camera2D CAM, std::list<std::variant<Entity, Player>>* Entitys, R
 }
 
 //Pre Fight Scen [Menu]
-void NewTwoDSpace(Player* Player, RayLibButtonClass BUTTON) {
+void NewTwoDSpace(Player* Player, std::vector<RayLibButtonClass> Buttons) {
     
     if (Player->FullColiding) {
         Player->FullColiding = false;
@@ -152,9 +166,11 @@ void NewTwoDSpace(Player* Player, RayLibButtonClass BUTTON) {
 
     ClearBackground(GRAY);
 
-    BUTTON.Update();
+    for (int x = 0; x < Buttons.size(); x++) {
+        Buttons[x].Update();
+    }
 
-    if (*BUTTON.ButtonAction) {
+    if (*Buttons[0].ButtonAction) {
         Player->FullColiding = true;
     }
 

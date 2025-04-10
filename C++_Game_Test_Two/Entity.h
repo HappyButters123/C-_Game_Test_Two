@@ -45,5 +45,7 @@ public:
 	
 		ThisColor = BLUE;
 	}
+
+	~Entity() { /* Kill Players */ }
 };
 

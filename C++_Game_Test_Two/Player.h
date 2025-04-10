@@ -106,4 +106,6 @@ public:
         this->SourceRec = Rectangle{ 0, 0, ((float)this->PlayerSpriteSheet.width / 3), (float)this->PlayerSpriteSheet.height };
         this->RectangleDraw = Vector2{ (X * (2 / NumberFrames)), -(Y * (2 / NumberFrames)) };
     }
+
+    ~Player(){ /* Kill Players */ }
 };

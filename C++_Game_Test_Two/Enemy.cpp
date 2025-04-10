@@ -38,8 +38,8 @@ void Enemy::Atack(Player* Player, bool* Turn)
 	case 0:
 		if (Random(0, 3) != 0) {
 			this->SpellUse--;
-			this->ActionText = TextFormat("Enemy Attacked using a spell Dealing &i Damage\n", this->SpellDamage);
-			Player->Health -= this->SpellDamage;
+			this->ActionText = TextFormat("Enemy Attacked using a spell Dealing %i Damage\n", this->SpellDamage);
+			Player->Health -= ((Player->Health - this->SpellDamage) <= this->HealthMin) ? Player->Health : this->SpellDamage;
 			Player->WasHit = true;
 			Player->ActionDelay = 12;
 			Player->FrameCount = 0;
@@ -55,7 +55,7 @@ void Enemy::Atack(Player* Player, bool* Turn)
 	case 1:
 		if (Random(0, 19) != 0) {
 			this->ActionText = TextFormat("Enemy Attacked Dealing %i Damage\n", this->NrmalDamage);
-			Player->Health -= this->NrmalDamage;
+			Player->Health -= ((Player->Health - this->NrmalDamage) <= this->HealthMin) ? Player->Health : this->NrmalDamage;
 			Player->WasHit = true;
 			Player->ActionDelay = 12;
 			Player->FrameCount = 0;
@@ -70,7 +70,7 @@ void Enemy::Atack(Player* Player, bool* Turn)
 	case 2:
 		if (Random(0, 9) != 0) {
 			this->ActionText = TextFormat("Enemy Healed For %i Health\n", HealthGain);
-			this->Health += ((this->Health + HealthGain) > 100) ? (100 - this->Health) : HealthGain;
+			this->Health += ((this->Health + HealthGain) > this->HealthMax) ? (this->Health - this->Health) : HealthGain;
 			*Turn = true;
 		}
 		else {
@@ -83,7 +83,7 @@ void Enemy::Atack(Player* Player, bool* Turn)
 	case 3:
 		if (Random(0, 9) != 0) {
 			this->ActionText = TextFormat("Enemy Attacked Dealing %i Damage\n", this->SpecailDamage);
-			Player->Health -= this->SpecailDamage;
+			Player->Health -= ((Player->Health - this->SpecailDamage) <= this->HealthMin) ? Player->Health : this->SpecailDamage;
 			Player->WasHit = true;
 			Player->ActionDelay = 12;
 			Player->FrameCount = 0;

@@ -9,8 +9,6 @@ class Enemy :
     public Entity
 {
 public:
-    int Health = 100;
-
     //Texture Things
     Texture2D Sprite = LoadTexture("Textures\\Characters\\Enemys\\aaron_gp0_015.png");
     Rectangle SourceRec;
@@ -28,12 +26,21 @@ public:
     std::list<bool> IsColidings = {};
     std::list<ColidingRecs> AllColidingRecs = {};
 
-    int SpellUse = 3;
-    int Defence = 40;
+    //move couts
+    int SpellUse = 1;
 
+    //defeance
+    int Defence = 38;
+
+    //Min and Max for health
+    int HealthMax = 125;
+    int HealthMin = 0;
+
+    //fight stats
     int NrmalDamage = 10;
     int SpecailDamage = 15;
     int SpellDamage = 30;
+    int Health = 125;
 
     void Update(bool* Turn);
 

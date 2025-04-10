@@ -8,8 +8,6 @@ class Player : public Entity
 {
 public:
 
-    int Health = 100;
-
     Texture2D PlayerSpriteSheet = LoadTexture("Textures\\Characters\\Player\\WARRIOR_COMBAT_SPRITE-SHEET.png");
 
     bool FightWin = false;
@@ -44,6 +42,11 @@ public:
 
     int SpecalCount = 5;
     int SpelllCount = 1;
+
+    //Health Stats
+    int Health = 100;
+    int HealthMin = 0;
+    int HealthMax = 100;
 
     void DrawSprite();
     void SelfMove();

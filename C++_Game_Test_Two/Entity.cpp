@@ -14,7 +14,7 @@ void Entity::SelfDraw()
 	//DrawCircle(this->Oragin.x, this->Oragin.y, 16, BLACK);
 }
 
-//Random int verson
+//Random number in a range
 int Entity::Random(int Min, int Max)
 {
 	std::random_device rd;

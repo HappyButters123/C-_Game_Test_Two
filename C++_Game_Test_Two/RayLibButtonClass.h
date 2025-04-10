@@ -10,6 +10,7 @@ class RayLibButtonClass
 public:
 
     //Internal~data~~~~~~~~~~~~~~~~~~~~~~~~
+    int* ButtonID = new int(0);
     Texture2D* ButtonTexture = new Texture2D();
     float* frameHeight = new float(0.0f);
     bool* ButtonAction = new bool(false);
@@ -30,12 +31,14 @@ public:
     void Update();
     void SelfDraw();
 
-    RayLibButtonClass(
+    RayLibButtonClass(int ID,
         float X, float Y,
         int NUM_FRAMES,
         const char BUTTONTEXTURE[],
         int SCAIL
     ) {
+
+        *this->ButtonID = ID;
         *this->NumberFrames = NUM_FRAMES;
         *this->Scail = SCAIL;
 

@@ -24,12 +24,16 @@ public:
     bool FightWin = false;
     int ActionDelay = 12;
     bool FullColiding = false;
-    const char* ActionText = "";
+    std::string ActionText = "E";
     std::list<bool> IsColidings = {};
     std::list<ColidingRecs> AllColidingRecs = {};
 
     int SpellUse = 3;
     int Defence = 40;
+
+    int NrmalDamage = 10;
+    int SpecailDamage = 15;
+    int SpellDamage = 30;
 
     void Update(bool* Turn);
 

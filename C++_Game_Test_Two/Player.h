@@ -51,8 +51,8 @@ public:
     void FullColition(std::list<std::variant<Entity, Player>>* MapObjects);
     void CombatDelay();
     void Atack(Enemy* Enemy, int Action, bool* Turn);
-    int AtackDamage(int EnemyDefenceCenter, int PlayerDamageCenter);
-    int HitChance(int EnemyDefenceCenter, int PlayerDamageCenter);
+    int AtackDamage(bool IsSpell, int EnemyDefenceCenter, int PlayerDamageCenter);
+    int HitChance(bool IsSpell, int EnemyDefenceCenter, int PlayerDamageCenter);
     //TEMP
     void DrawColidingRec();
     //TEMP

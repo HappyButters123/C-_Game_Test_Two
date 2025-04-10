@@ -29,21 +29,24 @@ void Enemy::Atack(Player* Player, bool* Turn)
 	//if not then it will not then theo other moves are rolled for
 	int Role = (Spellrole == 1 && this->SpellUse > 0) ? 0 : Random(1, 3);
 
+	//this makes the heal a little less powerfull
+	int HealthGain = Random(7, 10);
+
 	switch (Role)
 	{
 	//0 is the spell atack
 	case 0:
 		if (Random(0, 3) != 0) {
 			this->SpellUse--;
-			this->ActionText = "Enemy Attacked using a spell Dealing 30 Damage";
-			Player->Health -= 30;
+			this->ActionText = TextFormat("Enemy Attacked using a spell Dealing &i Damage\n", this->SpellDamage);
+			Player->Health -= this->SpellDamage;
 			Player->WasHit = true;
 			Player->ActionDelay = 12;
 			Player->FrameCount = 0;
 			*Turn = true;
 		}
 		else {
-			this->ActionText = "Enemy Missed There Spell";
+			this->ActionText = TextFormat("Enemy Missed There Spell\n");
 			*Turn = true;
 		}
 
@@ -51,29 +54,27 @@ void Enemy::Atack(Player* Player, bool* Turn)
 	//1 is the normal atack
 	case 1:
 		if (Random(0, 19) != 0) {
-			this->ActionText = "Enemy Attacked Dealing 10 Damage";
-			Player->Health -= 10;
+			this->ActionText = TextFormat("Enemy Attacked Dealing %i Damage\n", this->NrmalDamage);
+			Player->Health -= this->NrmalDamage;
 			Player->WasHit = true;
 			Player->ActionDelay = 12;
 			Player->FrameCount = 0;
 			*Turn = true;
 		}
 		else {
-			this->ActionText = "Enemy Missed their Attack";
+			this->ActionText = TextFormat("Enemy Missed their Attack\n");
 			*Turn = true;
 		}
 		break;
 	//2 is the heal move
 	case 2:
-		if (Random(0, 14) != 0) {
-			this->ActionText = "Enemy Healed For 10 Health";
-			this->Health += 10;
-
-			if (this->Health > 100) this->Health = 100;
+		if (Random(0, 9) != 0) {
+			this->ActionText = TextFormat("Enemy Healed For %i Health\n", HealthGain);
+			this->Health += ((this->Health + HealthGain) > 100) ? (100 - this->Health) : HealthGain;
 			*Turn = true;
 		}
 		else {
-			this->ActionText = "Enemy Missed their Heals";
+			this->ActionText = TextFormat("Enemy Missed their Heals\n");
 			*Turn = true;
 		}
 
@@ -81,22 +82,22 @@ void Enemy::Atack(Player* Player, bool* Turn)
 	//3 is the strong atack
 	case 3:
 		if (Random(0, 9) != 0) {
-			this->ActionText = "Enemy Attacked Dealing 20 Damage";
-			Player->Health -= 20;
+			this->ActionText = TextFormat("Enemy Attacked Dealing %i Damage\n", this->SpecailDamage);
+			Player->Health -= this->SpecailDamage;
 			Player->WasHit = true;
 			Player->ActionDelay = 12;
 			Player->FrameCount = 0;
 			*Turn = true;
 		}
 		else {
-			this->ActionText = "Enemy Missed their Specal Attack";
+			this->ActionText = TextFormat("Enemy Missed their Specal Attack\n");
 			*Turn = true;
 		}
 
 		break;
 	//errors
 	default:
-		std::cout << *Turn << "Fatal Error" << this->Health << "\n";
+		std::cout << *Turn << "Fatal Error, Enemy atack index was an invaled value" << this->Health << "\n";
 		WindowShouldClose();
 		break;
 	}

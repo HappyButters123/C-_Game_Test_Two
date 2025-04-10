@@ -11,7 +11,7 @@
 #include "Enemy.h"
 
 //Referance to scroleing through stat menue hadeling
-void ScrollableMenu(int* Click);
+void ScrollableMenu(Player Player, int* Click);
 
 //Referance to pre fight scen [OLD]
 void TwoDSpace(Camera2D CAM, std::list<std::variant<Entity, Player>>* Entitys, RayLibButtonClass BUTTON);
@@ -68,12 +68,10 @@ int main()
     //Camera2D~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //Buttons~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    RayLibButtonClass TestButton1(100, 400, 3, "Textures\\Menu\\button.png", 1);
-    RayLibButtonClass TestButton2(300, 500, 3, "Textures\\Menu\\button.png", 2);
+    RayLibButtonClass TestButton1(0, 100, 400, 3, "Textures\\Menu\\button.png", 1);
 
     std::vector<RayLibButtonClass> Buttons = {
         TestButton1,
-        TestButton2
     };
     //Buttons~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -122,7 +120,6 @@ int main()
     }
 
     TestButton1.~RayLibButtonClass();
-    TestButton2.~RayLibButtonClass();
 
     CloseWindow();
 }
@@ -168,10 +165,10 @@ void NewTwoDSpace(Player* Player, std::vector<RayLibButtonClass> Buttons) {
 
     for (int x = 0; x < Buttons.size(); x++) {
         Buttons[x].Update();
-    }
 
-    if (*Buttons[0].ButtonAction) {
-        Player->FullColiding = true;
+        if (*Buttons[x].ButtonID == 0 && *Buttons[x].ButtonAction) {
+            Player->FullColiding = true;
+        }
     }
 
     EndDrawing();
@@ -202,7 +199,7 @@ void loosSpace() {
 }
 
 //scroleing through stat menue hadeling
-void ScrollableMenu(int* Click) {
+void ScrollableMenu(Player Player, int* Click) {
 
     //0 - 3 alowed
 
@@ -228,16 +225,16 @@ void ScrollableMenu(int* Click) {
     switch (*Click)
     {
     case 0:
-        StatText = TextFormat("  ->Spell   Attack: 10D\n    Heal 10HP   Attack 20D");
+        StatText = TextFormat("   >Spell %i/1  Normal Attack\n    Heal 10HP   Special Attack %i/5", Player.SpelllCount, Player.SpecalCount);
         break;
     case 1:
-        StatText = TextFormat("    Spell ->Attack: 10D\n    Heal 10HP   Attack 20D");
+        StatText = TextFormat("    Spell %i/1 >Normal Attack\n    Heal 10HP   Special Attack %i/5", Player.SpelllCount, Player.SpecalCount);
         break;
     case 2:
-        StatText = TextFormat("    Spell   Attack: 10D\n  ->Heal 10HP   Attack 20D");
+        StatText = TextFormat("    Spell %i/1  Normal Attack\n   >Heal 10HP   Special Attack %i/5", Player.SpelllCount, Player.SpecalCount);
         break;
     case 3:
-        StatText = TextFormat("    Spell   Attack: 10D\n    Heal 10HP ->Attack 20D");
+        StatText = TextFormat("    Spell %i/1  Normal Attack\n    Heal 10HP  >Special Attack %i/5", Player.SpelllCount, Player.SpecalCount);
         break;
     default:
         StatText = "  ??";
@@ -262,11 +259,11 @@ void TwoDFightSpace(Camera2D CAM, Player* Player, Enemy* Enemy, Texture2D BackGr
         break;
     }
 
-    const char* EnemyOverHeadStats = TextFormat("Health: %i", Enemy->Health);
-    const char* PlayerOverHeadStats = TextFormat("Health: %i", Player->Health);
+    const char* EnemyOverHeadStats = TextFormat("E Health: %i", Enemy->Health);
+    const char* PlayerOverHeadStats = TextFormat("P Health: %i", Player->Health);
     Vector2 P_point = { (Player->Bounds.x), (Player->Bounds.y - 30) };
     Vector2 E_Health_point = { (Enemy->Bounds.x), (Enemy->Bounds.y - 30) };
-    Vector2 E_Action_point = { (Player->Bounds.x + Player->Bounds.width), ((Player->Bounds.y + Player->Bounds.height) - 30) };
+    Vector2 E_Action_point = { (Player->Bounds.x + Player->Bounds.width), ((Player->Bounds.y + Player->Bounds.height) - 120) };
 
     //Draw Stuff
     BeginDrawing();
@@ -279,7 +276,7 @@ void TwoDFightSpace(Camera2D CAM, Player* Player, Enemy* Enemy, Texture2D BackGr
     DrawRectangle(0, (GetScreenHeight() - 100), GetScreenWidth(), 100, GREEN);
 
     //this is the options window for things like atacking during the fight
-    ScrollableMenu(MenueOption);
+    ScrollableMenu(*Player, MenueOption);
 
     //2D Begins here (player and enemy are 2D objects, they are drawn here)
         BeginMode2D(CAM);
@@ -295,7 +292,7 @@ void TwoDFightSpace(Camera2D CAM, Player* Player, Enemy* Enemy, Texture2D BackGr
             DrawTextPro(GetFontDefault(), EnemyOverHeadStats, E_Health_point, { 0,0 }, 0.0f, 30.0f, 1.0f, RED);
             
             //Tells Player what the enemy just did
-            DrawTextPro(GetFontDefault(), Enemy->ActionText, E_Action_point, { 0,0 }, 0.0f, 30.0f, 1.0f, RED);
+            DrawTextPro(GetFontDefault(), Enemy->ActionText.c_str(), E_Action_point, {0,0}, 0.0f, 30.0f, 1.0f, RED);
 
         EndMode2D();
     //2D Ends here

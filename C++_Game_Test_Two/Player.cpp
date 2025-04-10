@@ -224,14 +224,19 @@ void Player::Atack(Enemy* Enemy, int Action, bool* Turn)
 
 	if (this->ActionDelay > 0 || !IsKeyPressed(KEY_ENTER)) { return; }
 	
-	this->NormalDamage = this->AtackDamage(Enemy->Defence, 45);
-	this->SpecalDamage = this->AtackDamage(Enemy->Defence, 65);
-	this->SpllDamage = this->AtackDamage(Enemy->Defence, 200);
+	this->NormalDamage = this->AtackDamage(false, Enemy->Defence, 45);
+	this->SpecalDamage = this->AtackDamage(false, Enemy->Defence, 65);
+	this->SpllDamage = this->AtackDamage(true, Enemy->Defence, Random((Enemy->Defence - 10), (Enemy->Defence + 10)));
 
 	switch (Action)
 	{
 	case 0:
 		if (this->SpelllCount > 0) {
+
+			//TEMP
+			std::cout << "Spell Damage: " << this->SpllDamage << "\n";
+			//TEMP
+
 			this->Hit = true;
 			Enemy->Health -= (Enemy->Health - this->SpllDamage <= 0) ? Enemy->Health : this->SpllDamage;
 			this->SpelllCount--;
@@ -246,9 +251,7 @@ void Player::Atack(Enemy* Enemy, int Action, bool* Turn)
 		*Turn = false;
 		break;
 	case 2:
-		this->Health += 10;
-
-		if (this->Health > 100) this->Health = 100;
+		this->Health += ((this->Health + 10) > 100) ? (100 - this->Health) : 10;
 		*Turn = false;
 		break;
 	case 3:
@@ -265,18 +268,25 @@ void Player::Atack(Enemy* Enemy, int Action, bool* Turn)
 		WindowShouldClose();
 		break;
 	}
-
+	
 	this->ActionDelay = 12;
 }
 
 //the cance you hit
-int Player::HitChance(int EnemyDefenceCenter, int PlayerDamageCenter)
+int Player::HitChance(bool IsSpell, int EnemyDefenceCenter, int PlayerDamageCenter)
 {
 	int HitChance = 0;
+	double EnemyDefenceRoll = 0;
+	double PlayerAtackeRoll = 0;
 
-	double EnemyDefenceRoll = Random((EnemyDefenceCenter - (EnemyDefenceCenter / static_cast<double>(2))), EnemyDefenceCenter + (EnemyDefenceCenter / static_cast<double>(2)));
-
-	double PlayerAtackeRoll = Random((PlayerDamageCenter - (PlayerDamageCenter / static_cast<double>(2))), PlayerDamageCenter + (PlayerDamageCenter / static_cast<double>(2)));
+	if (IsSpell) {
+		HitChance = 100;
+		goto ENDSPELL;
+	}
+	else {
+		EnemyDefenceRoll = Random((EnemyDefenceCenter - (EnemyDefenceCenter / static_cast<double>(2))), EnemyDefenceCenter + (EnemyDefenceCenter / static_cast<double>(2)));
+		PlayerAtackeRoll = Random((PlayerDamageCenter - (PlayerDamageCenter / static_cast<double>(4))), PlayerDamageCenter + (PlayerDamageCenter / static_cast<double>(3)));
+	}
 
 	if (PlayerAtackeRoll > EnemyDefenceRoll) {
 		HitChance = static_cast<double>((EnemyDefenceRoll + 2) / static_cast<double>(2 * (PlayerAtackeRoll + 1)) * 100);
@@ -285,16 +295,35 @@ int Player::HitChance(int EnemyDefenceCenter, int PlayerDamageCenter)
 		HitChance = ((PlayerAtackeRoll / static_cast<double>(2 * (EnemyDefenceRoll + 1))) * 100);
 	}
 	
+	//TEMP
+	std::cout << "EnemyDefenceRoll: " << EnemyDefenceRoll << "\n";
+	std::cout << "PlayerAtackeRoll: " << PlayerAtackeRoll << "\n";
+	std::cout << "HitChance: " << HitChance << "\n";
+	//TEMP
+
+ENDSPELL:;
 	return HitChance;
 }
 
-int Player::AtackDamage(int EnemyDefenceCenter, int PlayerDamageCenter)
+int Player::AtackDamage(bool IsSpell, int EnemyDefenceCenter, int PlayerDamageCenter)
 {
+	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+
 	int PlayerHitRollTop = PlayerDamageCenter + (PlayerDamageCenter / 2);
 
-	int PlayerHitChance = HitChance(EnemyDefenceCenter, PlayerDamageCenter);
+	int PlayerHitChance = HitChance(IsSpell, EnemyDefenceCenter, PlayerDamageCenter);
 
 	int AtackDamagePerHit = static_cast<double>(PlayerHitChance * ((PlayerHitRollTop / 2) + (1 / (PlayerHitRollTop + 1)))) / static_cast<double>(100);
+
+	//TEMP
+	std::cout << "EnemyDefenceCenter: " << EnemyDefenceCenter << "\n";
+	std::cout << "PlayerDamageCenter: " << PlayerDamageCenter << "\n";
+	std::cout << "PlayerHitRollTop: " << PlayerHitRollTop << "\n";
+	std::cout << "PlayerHitChance: " << PlayerHitChance << "\n";
+	std::cout << "AtackDamagePerHit: " << AtackDamagePerHit << "\n";
+	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n\n";
+	
+	//TEMP
 
 	return AtackDamagePerHit;
 }

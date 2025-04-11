@@ -10,8 +10,6 @@ void Entity::Update()
 void Entity::SelfDraw()
 {
 	DrawRectangleRec(this->Bounds, this->ThisColor);
-
-	//DrawCircle(this->Oragin.x, this->Oragin.y, 16, BLACK);
 }
 
 //Random number in a range

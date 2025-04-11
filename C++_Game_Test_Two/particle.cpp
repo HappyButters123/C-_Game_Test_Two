@@ -9,11 +9,6 @@ void particle::update(float X, float Y)
 	if (this->FrameCount <= MaxNumberFrames) {
 		this->TextureState += ((this->FrameCount % 2) == 0) ? 1 : 0;
 		this->FrameCount--;
-
-		//TEMP
-		std::cout << "this->TextureState :" << this->TextureState << "\n";
-		std::cout << " X: " << X << "\n Y: " << Y << "\n~~~~~~~~~~\n";
-		//TEMP
 	}
 
 	if (this->FrameCount <= 0) {

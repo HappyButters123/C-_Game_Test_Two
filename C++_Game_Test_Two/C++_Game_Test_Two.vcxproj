@@ -155,6 +155,9 @@
     <Image Include="Textures\Menu\button.png" />
     <Image Include="Textures\Menu\fdxi_-_Copy.png" />
     <Image Include="Textures\Menu\Konata.png" />
+    <Image Include="Textures\Menu\Main Menue\Buttons\Exit.png" />
+    <Image Include="Textures\Menu\Main Menue\Buttons\New_Game.png" />
+    <Image Include="Textures\Menu\Main Menue\Buttons\Option.png" />
     <Image Include="Textures\Particals\NORMAL_HIT_EFFECT-SHEET_80X80.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

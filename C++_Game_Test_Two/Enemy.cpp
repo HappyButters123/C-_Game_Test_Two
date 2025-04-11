@@ -9,7 +9,6 @@ void Enemy::Update(bool* Turn)
 	}
 
 	//Draw things [should be last]
-	//this->SelfDraw();
 	this->DrawSprite();
 }
 
@@ -105,6 +104,7 @@ void Enemy::Atack(Player* Player, bool* Turn)
 	this->ActionDelay = 12;
 }
 
+//Draws the texture
 void Enemy::DrawSprite()
 {
 	int tileWidth = (int)(this->SourceRec.width * this->Scail), tileHeight = (int)(this->SourceRec.height * this->Scail);
@@ -128,10 +128,6 @@ void Enemy::DrawSprite()
 		}
 	}
 
-	//DrawTexture(this->Sprite, this->Bounds.x, this->Bounds.y, WHITE);
-	
 	DrawTexturePro(this->Sprite, { this->SourceRec.x, this->SourceRec.y, ((float)this->Bounds.width / tileWidth) * this->SourceRec.width, ((float)this->Bounds.height / tileHeight) * this->SourceRec.height },
 		this->Bounds, { SpotX, this->SourceRec.y }, 0.0f, Hue);
-	
-
 }

@@ -21,13 +21,7 @@ void Player::Update(std::list<std::variant<Entity, Player>>* MapObjects)
 //update the player object during fights
 void Player::CombatUpdate(Enemy* Enemy, bool* Turn)
 {
-	//Temp Exit Fights  for testing
-	if (IsKeyPressed(KEY_SPACE) && !this->Hit) {
-		this->NextFightDelay = 60;
-		this->FightWin = true;
-	}
-	//Temp Exit Fights for testing
-
+	//prevent hitting the instant that the enemy is done
 	if (*Turn && this->ActionDelay > 0) {
 		this->ActionDelay--;
 	}
@@ -45,7 +39,6 @@ void Player::CombatUpdate(Enemy* Enemy, bool* Turn)
 	}
 
 	//Draws [Should be last]
-	//this->SelfDraw();
 	this->DrawSprite();
 }
 
@@ -59,23 +52,14 @@ void Player::DrawSprite()
 
 		if (this->FrameCount <= 3) {
 			this->TextureState = 0;
-			//TEMP
-			std::cout << "0\n";
-			//TEMP
 			goto AFTERCOUNT;
 		}
 		if (this->FrameCount >= 4 && this->FrameCount <= 6) {
 			this->TextureState = 1;
-			//TEMP
-			std::cout << "1\n";
-			//TEMP
 			goto AFTERCOUNT;
 		}
 		if (this->FrameCount >= 7 && this->FrameCount <= 11) {
 			this->TextureState = 2;
-			//TEMP
-			std::cout << "2\n";
-			//TEMP
 			goto AFTERCOUNT;
 		}
 
@@ -83,9 +67,6 @@ void Player::DrawSprite()
 			this->TextureState = 0;
 			this->FrameCount = 0;
 			this->Hit = false;
-			//TEMP
-			std::cout << "Back to 0\n";
-			//TEMP
 			goto AFTERCOUNT;
 		}
 	}
@@ -226,10 +207,6 @@ void Player::Atack(Enemy* Enemy, int Action, bool* Turn)
 	case 0:
 		if (this->SpelllCount > 0) {
 
-			//TEMP
-			std::cout << "Spell Damage: " << this->SpllDamage << "\n";
-			//TEMP
-
 			this->Hit = true;
 			Enemy->Health -= (Enemy->Health - this->SpllDamage <= 0) ? Enemy->Health : this->SpllDamage;
 			this->SpelllCount--;
@@ -288,35 +265,17 @@ int Player::HitChance(bool IsSpell, int EnemyDefenceCenter, int PlayerDamageCent
 		HitChance = ((PlayerAtackeRoll / static_cast<double>(2 * (EnemyDefenceRoll + 1))) * 100);
 	}
 	
-	//TEMP
-	std::cout << "EnemyDefenceRoll: " << EnemyDefenceRoll << "\n";
-	std::cout << "PlayerAtackeRoll: " << PlayerAtackeRoll << "\n";
-	std::cout << "HitChance: " << HitChance << "\n";
-	//TEMP
-
 ENDSPELL:;
 	return HitChance;
 }
 
 int Player::AtackDamage(bool IsSpell, int EnemyDefenceCenter, int PlayerDamageCenter)
 {
-	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
-
 	int PlayerHitRollTop = PlayerDamageCenter + (PlayerDamageCenter / 2);
 
 	int PlayerHitChance = HitChance(IsSpell, EnemyDefenceCenter, PlayerDamageCenter);
 
 	int AtackDamagePerHit = static_cast<double>(PlayerHitChance * ((PlayerHitRollTop / 2) + (1 / (PlayerHitRollTop + 1)))) / static_cast<double>(100);
-
-	//TEMP
-	std::cout << "EnemyDefenceCenter: " << EnemyDefenceCenter << "\n";
-	std::cout << "PlayerDamageCenter: " << PlayerDamageCenter << "\n";
-	std::cout << "PlayerHitRollTop: " << PlayerHitRollTop << "\n";
-	std::cout << "PlayerHitChance: " << PlayerHitChance << "\n";
-	std::cout << "AtackDamagePerHit: " << AtackDamagePerHit << "\n";
-	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n\n";
-	
-	//TEMP
 
 	return AtackDamagePerHit;
 }

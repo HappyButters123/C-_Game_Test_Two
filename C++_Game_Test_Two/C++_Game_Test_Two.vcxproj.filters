@@ -28,6 +28,12 @@
     <Filter Include="Resource Files\Particals">
       <UniqueIdentifier>{37292a7b-2125-4ebb-8cf6-dc35d57b5d7a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\menu\Main menue">
+      <UniqueIdentifier>{0141e03d-191f-4aa5-8c0c-def02e85641d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\menu\Main menue\Buttons">
+      <UniqueIdentifier>{c326cd21-ef9f-4889-b246-b8b5bf74370f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C++_Game_Test_Two.cpp">
@@ -99,6 +105,15 @@
     </Image>
     <Image Include="Textures\Particals\NORMAL_HIT_EFFECT-SHEET_80X80.png">
       <Filter>Resource Files\Particals</Filter>
+    </Image>
+    <Image Include="Textures\Menu\Main Menue\Buttons\Exit.png">
+      <Filter>Resource Files\menu\Main menue\Buttons</Filter>
+    </Image>
+    <Image Include="Textures\Menu\Main Menue\Buttons\New_Game.png">
+      <Filter>Resource Files\menu\Main menue\Buttons</Filter>
+    </Image>
+    <Image Include="Textures\Menu\Main Menue\Buttons\Option.png">
+      <Filter>Resource Files\menu\Main menue\Buttons</Filter>
     </Image>
   </ItemGroup>
 </Project>

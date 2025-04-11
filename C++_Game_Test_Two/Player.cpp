@@ -96,31 +96,23 @@ void Player::DrawSprite()
 		this->FrameCount++;
 		Hue = LIGHTGRAY;
 
+		if (this->FrameCount < 6) {
+			this->HitParticle.update((this->Bounds.x + 50), (this->RectangleDraw.y + 25));
+		}
+
 		if (this->FrameCount <= 4) {
 			SpotX += 2;
-			//TEMP
-			std::cout << "this->SourceRec.x: " << this->SourceRec.x << " SpotX: " << SpotX << "\n";
-			//TEMP
 		}
 		if (this->FrameCount >= 5 && this->FrameCount <= 8) {
-			SpotX -= 2;
-			//TEMP
-			std::cout << "this->SourceRec.x: " << this->SourceRec.x << " SpotX: " << SpotX << "\n";
-			//TEMP
+			SpotX -= 4;
 		}
 		if (this->FrameCount >= 9 && this->FrameCount <= 12) {
 			SpotX += 2;
-			//TEMP
-			std::cout << "this->SourceRec.x: " << this->SourceRec.x << " SpotX: " << SpotX << "\n";
-			//TEMP
 		}
 
 		if (this->FrameCount >= 13) {
 			this->WasHit = false;
 			this->FrameCount = 0;
-			//TEMP
-			std::cout << "this->SourceRec.x: " << this->SourceRec.x << " SpotX: " << SpotX << "\n";
-			//TEMP
 		}
 	}
 
@@ -133,7 +125,8 @@ AFTERCOUNT:;
 
 	DrawTexturePro(this->PlayerSpriteSheet, { this->SourceRec.x, this->SourceRec.y, ((float)this->Bounds.width / tileWidth) * this->SourceRec.width, ((float)this->Bounds.height / tileHeight) * this->SourceRec.height },
 		this->Bounds, { SpotX, this->RectangleDraw.y }, 0.0f, Hue);
-
+	
+	if (this->WasHit) this->HitParticle.DrawSprite();
 }
 
 //moving outside of fights [OLD]

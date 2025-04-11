@@ -119,7 +119,7 @@ void Enemy::DrawSprite()
 		Hue = LIGHTGRAY;
 
 		if (this->FrameCount <= 4) SpotX += 2;
-		if (this->FrameCount >= 5 && this->FrameCount <= 8) SpotX -= 2;
+		if (this->FrameCount >= 5 && this->FrameCount <= 8) SpotX -= 4;
 		if (this->FrameCount >= 9 && this->FrameCount <= 12) SpotX += 2;
 
 		if (this->FrameCount >= 13) {

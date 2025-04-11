@@ -70,6 +70,45 @@ int main()
     //Buttons~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     RayLibButtonClass TestButton1(0, 100, 400, 3, "Textures\\Menu\\button.png", 1);
 
+    //Explaned Buttons
+    /*
+    the class of buttons
+
+    RayLibButtonClass
+
+    it needs a name so
+
+    TestButton
+
+    the button needs:
+        int ID,
+        float X,
+        float Y,
+        int NUM_FRAMES,
+        const char BUTTONTEXTURE[],
+        int SCAIL
+
+    for this test we can just make them
+        int ID = 1,
+        float X  = 0.0f,
+        float Y  = 0.0f,
+        int NUM_FRAMES = 3,
+        this string is the file location of the texture
+        const char BUTTONTEXTURE[] = "Textures\Menu\button.png",
+        int SCAIL = 1
+
+    in code this looks like
+
+    RayLibButtonClass TestButton{1, 0.0f, 0.0f, 3, "Textures\\Menu\\button.png", 1};
+
+    thats it, just add your "TestButton" to the Buttons vector and thats it
+
+    you can tweek the values here to better fit your needs
+
+    PS: file locations is strings use "\\" in place of "\"
+    */
+    //Explaned Buttons
+
     std::vector<RayLibButtonClass> Buttons = {
         TestButton1,
     };

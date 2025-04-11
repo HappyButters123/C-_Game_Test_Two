@@ -25,6 +25,9 @@
     <Filter Include="Resource Files\menu\Background">
       <UniqueIdentifier>{43a18353-de05-41f8-a899-5566836bc77c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Particals">
+      <UniqueIdentifier>{37292a7b-2125-4ebb-8cf6-dc35d57b5d7a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C++_Game_Test_Two.cpp">
@@ -40,6 +43,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="particle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,6 +74,9 @@
     <ClInclude Include="Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="particle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Textures\Menu\button.png">
@@ -87,6 +96,9 @@
     </Image>
     <Image Include="Textures\Menu\Backgrounds\Placeholder_BG.png">
       <Filter>Resource Files\menu\Background</Filter>
+    </Image>
+    <Image Include="Textures\Particals\NORMAL_HIT_EFFECT-SHEET_80X80.png">
+      <Filter>Resource Files\Particals</Filter>
     </Image>
   </ItemGroup>
 </Project>

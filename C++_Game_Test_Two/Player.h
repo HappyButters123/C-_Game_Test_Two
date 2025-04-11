@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "Enemy.h"
+#include "particle.h"
 
 class Player : public Entity
 {
@@ -27,6 +28,7 @@ public:
     bool Hit = false;
     bool WasHit = false;
     float Scail = 2.5;
+    //Texture Things
 
     void Update(std::list<std::variant<Entity, Player>>* MapObjects);
     void CombatUpdate(Enemy* Enemy, bool* Turn);
@@ -47,6 +49,9 @@ public:
     int Health = 100;
     int HealthMin = 0;
     int HealthMax = 100;
+
+    //Hit Particle
+    particle HitParticle{ 0, 0.0f, 0.0f, 80.0f, 80.0f, "Textures\\Particals\\NORMAL_HIT_EFFECT-SHEET_80X80.png" };
 
     void DrawSprite();
     void SelfMove();
